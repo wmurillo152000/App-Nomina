@@ -3,68 +3,72 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Empleado } from '../models/empleado.model';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment'; // ✅ Importamos la configuración global
 
 @Injectable({ providedIn: 'root' })
 export class EmpleadosService {
-  private api = 'http://localhost:8080';
-  private apiUrl = 'https://giving-joy-production.up.railway.app'
+  
+  // ✅ Usamos la URL del environment. Ya no más "localhost" escrito a mano aquí.
+  private baseUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) { }
 
   getPeriodoActual(): Observable<any> {
-    return this.http.get(`${this.api}/api/periodo-nomina/actual`);
+    return this.http.get(`${this.baseUrl}/api/periodo-nomina/actual`);
   }
 
   getNovedades(idEmpleado: number): Observable<any[]> {
-    return this.http.get<any[]>(`${this.api}/api/novedades/empleado/${idEmpleado}`);
+    return this.http.get<any[]>(`${this.baseUrl}/api/novedades/empleado/${idEmpleado}`);
   }
 
   pagarNomina(payload: any): Observable<any> {
-    return this.http.post('http://localhost:8080/api/pagos-nomina', payload, {
+    return this.http.post(`${this.baseUrl}/api/pagos-nomina`, payload, {
       responseType: 'text'
     });
   }
 
   getEmpleados(): Observable<Empleado[]> {
-    return this.http.get<Empleado[]>(`${this.api}/api/empleados`);
+    return this.http.get<Empleado[]>(`${this.baseUrl}/api/empleados`);
   }
 
   guardarNovedad(novedad: any): Observable<any> {
-    return this.http.post('http://localhost:8080/api/novedades', novedad);
+    return this.http.post(`${this.baseUrl}/api/novedades`, novedad);
   }
 
   getNovedadesPorPeriodo(periodoId: string): Observable<any[]> {
-    return this.http.get<any[]>(`${this.api}/api/novedades/periodo/${periodoId}`);
+    return this.http.get<any[]>(`${this.baseUrl}/api/novedades/periodo/${periodoId}`);
   }
 
   getNovedadesPorPeriodoYEmpleado(periodoId: string, empleadoId: string): Observable<any[]> {
-    return this.http.get<any[]>(`${this.api}/api/novedades/periodo/${periodoId}/empleado/${empleadoId}`);
+    return this.http.get<any[]>(`${this.baseUrl}/api/novedades/periodo/${periodoId}/empleado/${empleadoId}`);
   }
 
   getNovedadesPeriodoActual(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.api}/api/novedades/periodo-actual`);
+    return this.http.get<any[]>(`${this.baseUrl}/api/novedades/periodo-actual`);
   }
 
-  // ✅ Método para obtener todos los períodos (público, sin token)
   getPeriodos(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.api}/api/periodo-nomina/todos`);
+    return this.http.get<any[]>(`${this.baseUrl}/api/periodo-nomina/todos`);
   }
 
-  // ✅ Método de prueba para verificar conexión
   getPeriodosTest(): Observable<any> {
-    return this.http.get<any>(`${this.api}/api/periodo-nomina/test`);
+    return this.http.get<any>(`${this.baseUrl}/api/periodo-nomina/test`);
   }
 
   cerrarPeriodoActual(): Observable<any> {
-    return this.http.patch('http://localhost:8080/api/periodo-nomina/cerrar-actual', {});
+    return this.http.patch(`${this.baseUrl}/api/periodo-nomina/cerrar-actual`, {});
   }
 
   crearPeriodo(periodo: any): Observable<any> {
-    return this.http.post('http://localhost:8080/api/periodo-nomina', periodo);
+    return this.http.post(`${this.baseUrl}/api/periodo-nomina`, periodo);
   }
 
   getNovedadesPorEmpleado(empleadoId: string): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/novedades/empleado/${empleadoId}`);
+    return this.http.get<any[]>(`${this.baseUrl}/api/novedades/empleado/${empleadoId}`);
+  }
+
+  actualizarEmpleado(empleado: any): Observable<any> {
+    return this.http.put(`${this.baseUrl}/api/empleados/${empleado.id}`, empleado);
   }
 
   getConcepto(tipo: string): string {
@@ -78,10 +82,6 @@ export class EmpleadosService {
       EMBARGO: 'EMBARGO JUDICIAL'
     };
     return mapa[tipo] || tipo;
-  }
-
-  actualizarEmpleado(empleado: any): Observable<any> {
-    return this.http.put(`${this.apiUrl}/empleados/${empleado.id}`, empleado);
   }
 }
 

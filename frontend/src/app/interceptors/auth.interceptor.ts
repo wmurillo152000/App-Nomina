@@ -5,13 +5,14 @@ import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
+import { environment } from '../../environments/environment'; // ✅ Agregamos environment
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
     const authService = inject(AuthService);
     const router = inject(Router);
     const token = authService.getToken();
+    const baseUrl = environment.apiUrl; // ✅ Obtenemos la URL de Railway
 
-    // Rutas que NO necesitan token (públicas)
     const publicUrls = [
         '/api/periodo-nomina/todos',
         '/api/periodo-nomina/test',
@@ -20,11 +21,15 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
         '/api/prediccion/'
     ];
 
-    // Verificar si la URL actual es pública
     const isPublicUrl = publicUrls.some(url => req.url.includes(url));
+    
+    // ✅ CLAVE: Solo agregamos el token si la petición es para NUESTRO backend
+    const isApiUrl = req.url.startsWith(baseUrl) || req.url.startsWith('http://localhost:8080');
 
     let authReq = req;
-    if (token && !isPublicUrl) {
+    
+    // Solo agregamos token si: hay token, NO es URL pública y SÍ es para nuestro Backend
+    if (token && !isPublicUrl && isApiUrl) {
         authReq = req.clone({
             setHeaders: {
                 Authorization: `Bearer ${token}`
@@ -39,14 +44,12 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
         catchError(err => {
             console.log('⚠️ Error en petición:', err.status, req.url);
 
-            // Solo hacer logout en 401 (no autenticado)
             if (err.status === 401) {
                 console.warn('401 → Token inválido/expirado → logout');
                 authService.logout();
                 router.navigate(['/login']);
             } else if (err.status === 403) {
                 console.warn('403 → Acceso denegado a:', req.url);
-                // No hacer logout para 403, solo mostrar el error
             }
             return throwError(() => err);
         })
