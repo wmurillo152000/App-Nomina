@@ -20,8 +20,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin(origins = "*") // Permite que Angular se conecte sin bloqueos de seguridad
 @RestController
-@RequestMapping("/api/auth")
+// 💡 SOLUCIÓN: Eliminamos el @RequestMapping general para que el login quede exactamente en "/login"
 public class AuthController {
 
     @Autowired
