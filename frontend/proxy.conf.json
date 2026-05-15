@@ -1,6 +1,6 @@
 {
   "/api": {
-    "target": "http://localhost:8080",
+    "target": "http://'https://giving-joy-production.up.railway.app'",
     "secure": false,
     "changeOrigin": true,
     "logLevel": "debug"

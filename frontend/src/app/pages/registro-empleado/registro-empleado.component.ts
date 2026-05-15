@@ -57,7 +57,7 @@ export class RegistroEmpleadoComponent {
       return;
     }
 
-    this.http.post('http://localhost:8080/api/empleados', this.empleado).subscribe({
+    this.http.post('http://'https://giving-joy-production.up.railway.app'/api/empleados', this.empleado).subscribe({
       next: () => {
         this.exito = true;
         this.loading = false;

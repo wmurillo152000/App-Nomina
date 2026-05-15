@@ -122,7 +122,7 @@
       }
 
       try {
-        const res = await fetch(`http://localhost:8080/api/empleado/${id}`);
+        const res = await fetch(`http://'https://giving-joy-production.up.railway.app'/api/empleado/${id}`);
         if (!res.ok) throw new Error('Empleado no encontrado');
         const emp = await res.json();
 
@@ -151,7 +151,7 @@
         idEmpresa: 1
       };
 
-      fetch(`http://localhost:8080/api/empleado/${id}`, {
+      fetch(`http://'https://giving-joy-production.up.railway.app'/api/empleado/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(empleado)

@@ -57,7 +57,7 @@ export class NovedadesComponent implements OnInit {
     const token = this.authService.getToken();
     console.log('Cargando empleados...');
 
-    this.http.get<Empleado[]>('http://localhost:8080/api/empleados', {
+    this.http.get<Empleado[]>('http://'https://giving-joy-production.up.railway.app'/api/empleados', {
       headers: { 'Authorization': `Bearer ${token}` }
     }).subscribe({
       next: (data) => {
@@ -120,7 +120,7 @@ export class NovedadesComponent implements OnInit {
     const token = this.authService.getToken();
     console.log('Cargando novedades para empleado:', idEmpleado);
 
-    this.http.get<Novedad[]>(`http://localhost:8080/api/novedades/empleado/${idEmpleado}`, {
+    this.http.get<Novedad[]>(`http://'https://giving-joy-production.up.railway.app'/api/novedades/empleado/${idEmpleado}`, {
       headers: { 'Authorization': `Bearer ${token}` }
     }).subscribe({
       next: (data) => {

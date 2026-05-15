@@ -105,7 +105,7 @@
   <script>
     async function cargarEmpleados() {
       try {
-        const res = await fetch('http://localhost:8080/api/empleado');
+        const res = await fetch('https://giving-joy-production.up.railway.app');
         if (!res.ok) {
           const text = await res.text();
           throw new Error(`HTTP ${res.status}: ${text}`);

@@ -158,7 +158,7 @@
 
     async function cargarPeriodo() {
       try {
-        const res = await fetch('http://localhost:8080/api/periodo/actual');
+        const res = await fetch('http://'https://giving-joy-production.up.railway.app'/api/periodo/actual');
         if (!res.ok) throw new Error('Error al cargar período');
         periodoActual = await res.json();
 
@@ -178,8 +178,8 @@
     async function cargarNomina() {
       try {
         const [empleadosRes, novedadesRes] = await Promise.all([
-          fetch('http://localhost:8080/api/empleado'),
-          fetch(`http://localhost:8080/api/novedad/periodo/${periodoActual.periodoKey}`)
+          fetch('http://'https://giving-joy-production.up.railway.app'/api/empleado'),
+          fetch(`http://'https://giving-joy-production.up.railway.app'/api/novedad/periodo/${periodoActual.periodoKey}`)
         ]);
 
         if (!empleadosRes.ok || !novedadesRes.ok) throw new Error('Error al cargar datos');
@@ -241,7 +241,7 @@
 
     function pagarNomina() {
       if (confirm(`¿Estás seguro de pagar la nómina de ${periodoActual.nombre}?\n\nEsta acción no se puede deshacer.`)) {
-        fetch(`http://localhost:8080/api/periodo/pagar/${periodoActual.id}`, {
+        fetch(`http://'https://giving-joy-production.up.railway.app'/api/periodo/pagar/${periodoActual.id}`, {
           method: 'POST'
         })
           .then(res => {

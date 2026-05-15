@@ -182,7 +182,7 @@
       }
 
       // === ENVÍO AL BACKEND (RUTA CORRECTA) ===
-      fetch('http://localhost:8080/api/empleado', {  // ← RUTA CORRECTA
+      fetch('http://'https://giving-joy-production.up.railway.app'/api/empleado', {  // ← RUTA CORRECTA
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(empleado)

@@ -74,7 +74,7 @@ export class ConsultaEmpleadoComponent implements OnInit {
 
         // Cargar empleados (usa datos reales o de prueba)
         const token = this.authService.getToken();
-        this.http.get<Empleado[]>('http://localhost:8080/api/empleados', {
+        this.http.get<Empleado[]>('http://'https://giving-joy-production.up.railway.app'/api/empleados', {
             headers: { 'Authorization': `Bearer ${token}` }
         }).subscribe({
             next: (data) => {

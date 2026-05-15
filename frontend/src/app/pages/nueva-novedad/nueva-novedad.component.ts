@@ -763,7 +763,7 @@ export class NuevaNovedadComponent implements OnInit {
       datosEnviar.valor = this.novedad.valor;
     }
 
-    this.http.post('http://localhost:8080/api/novedades', datosEnviar)
+    this.http.post('http://'https://giving-joy-production.up.railway.app'/api/novedades', datosEnviar)
       .subscribe({
         next: () => {
           alert('âœ… Â¡Novedad guardada exitosamente!');

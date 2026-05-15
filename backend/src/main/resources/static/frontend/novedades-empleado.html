@@ -232,7 +232,7 @@
 
     async function cargarEmpleados() {
       try {
-        const res = await fetch('http://localhost:8080/api/empleado');
+        const res = await fetch//'https://giving-joy-production.up.railway.app'/api/empleado');
         if (!res.ok) throw new Error('Error al cargar empleados');
         return await res.json();
       } catch (e) {
@@ -295,7 +295,7 @@
 
     async function cargarNovedades() {
       try {
-        const res = await fetch(`http://localhost:8080/api/novedad/empleado/${empleadoActual.id}/${periodo}`);
+        const res = await fetch(`http://'https://giving-joy-production.up.railway.app'/api/novedad/empleado/${empleadoActual.id}/${periodo}`);
         const novedades = await res.json();
         const tbody = document.getElementById('tbodyNovedades');
         tbody.innerHTML = '';
@@ -339,7 +339,7 @@
         periodo: periodo
       };
 
-      fetch('http://localhost:8080/api/novedad', {
+      fetch('http://'https://giving-joy-production.up.railway.app'/api/novedad', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(novedad)
@@ -354,7 +354,7 @@
 
     function eliminarNovedad(id) {
       if (confirm('¿Eliminar esta novedad?')) {
-        fetch(`http://localhost:8080/api/novedad/${id}`, { method: 'DELETE' })
+        fetch(`http://'https://giving-joy-production.up.railway.app'/api/novedad/${id}`, { method: 'DELETE' })
           .then(() => {
             mostrarMensaje('Novedad eliminada', 'exito');
             cargarNovedades();

@@ -78,7 +78,7 @@
   <script>
     async function cargarEmpleados() {
       try {
-        const res = await fetch('http://localhost:8080/api/empleado');
+        const res = await fetch('http://'https://giving-joy-production.up.railway.app'/api/empleado');
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         return await res.json();
       } catch (error) {
@@ -119,7 +119,7 @@
 
     function liquidarEmpleado(id) {
       if (confirm('¿Liquidar este empleado?')) {
-        fetch(`http://localhost:8080/api/empleado/${id}`, {
+        fetch(`http://'https://giving-joy-production.up.railway.app'/api/empleado/${id}`, {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ estado: 'Liquidado' })

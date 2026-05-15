@@ -60,7 +60,7 @@ export class PeriodosNominaComponent implements OnInit {
                 console.error('Error al cargar perÃ­odos:', err);
                 this.periodos = [];
                 this.cargando = false;
-                alert('No se pudieron cargar los perÃ­odos.\n\nVerifica que el backend estÃ© corriendo en http://localhost:8080');
+                alert('No se pudieron cargar los perÃ­odos.\n\nVerifica que el backend estÃ© corriendo en http://'https://giving-joy-production.up.railway.app'');
             }
         });
     }

@@ -77,7 +77,7 @@
   <script>
     async function cargarEmpleados() {
       try {
-        const res = await fetch('http://localhost:8080/api/empleado');
+        const res = await fetch('http://'https://giving-joy-production.up.railway.app'/api/empleado');
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         return await res.json();
       } catch (error) {
@@ -126,7 +126,7 @@
 
     function eliminar(id) {
       if (confirm('¿Eliminar este empleado?')) {
-        fetch(`http://localhost:8080/api/empleado/${id}`, { method: 'DELETE' })
+        fetch(`http://'https://giving-joy-production.up.railway.app'/api/empleado/${id}`, { method: 'DELETE' })
           .then(() => {
             mostrarMensaje('Empleado eliminado', 'exito');
             cargarConsulta();
