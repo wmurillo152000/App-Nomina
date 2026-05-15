@@ -3,13 +3,15 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { Router } from '@angular/router';
+import { environment } from '../../environments/environment'; // 1. IMPORTAMOS EL ENVIRONMENT
 
 @Injectable({
     providedIn: 'root'
 })
 export class AuthService {
 
-    private apiUrl = 'giving-joy-production.up.railway.app';
+    // 2. USAMOS LA VARIABLE CON EL HTTPS QUE CONFIGURASTE ANTES
+    private apiUrl = environment.apiUrl;
 
     constructor(private http: HttpClient, private router: Router) { }
 

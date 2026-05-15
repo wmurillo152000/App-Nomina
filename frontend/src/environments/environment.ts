@@ -1,4 +1,4 @@
 export const environment = {
-  production: false,
-  apiUrl: 'https://giving-joy-production.up.railway.app' // Tu backend en railway de Java
+  production: true, // ¡Este es el que lee Railway!
+  apiUrl: 'https://giving-joy-production.up.railway.app' 
 };
