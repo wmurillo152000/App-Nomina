@@ -24,7 +24,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     const isPublicUrl = publicUrls.some(url => req.url.includes(url));
     
     // ✅ CLAVE: Solo agregamos el token si la petición es para NUESTRO backend
-    const isApiUrl = req.url.startsWith(baseUrl) || req.url.startsWith('http://'https://giving-joy-production.up.railway.app'');
+    const isApiUrl = req.url.startsWith(baseUrl) || req.url.startsWith('http://localhost:8080');
 
     let authReq = req;
     

@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { SidebarComponent } from '../../guards/components/sidebar/sidebar.component';
 import { AuthService } from '../../services/auth.service';
+import { environment } from '../../../environments/environment';
 
 interface Empleado {
   id?: number;
@@ -53,11 +54,12 @@ export class NovedadesComponent implements OnInit {
     this.cargarEmpleados();
   }
 
+  // ✅ CORREGIDO: URL dinámica con environment y llaves recuperadas
   cargarEmpleados() {
     const token = this.authService.getToken();
     console.log('Cargando empleados...');
 
-    this.http.get<Empleado[]>('http://'https://giving-joy-production.up.railway.app'/api/empleados', {
+    this.http.get<Empleado[]>(`${environment.apiUrl}/api/empleados`, {
       headers: { 'Authorization': `Bearer ${token}` }
     }).subscribe({
       next: (data) => {
@@ -96,7 +98,6 @@ export class NovedadesComponent implements OnInit {
     );
   }
 
-  // Redirige a nueva-novedad para agregar
   abrirNovedad(emp: Empleado) {
     this.router.navigate(['/nueva-novedad'], {
       queryParams: {
@@ -108,19 +109,18 @@ export class NovedadesComponent implements OnInit {
     });
   }
 
-  // Ver novedades del empleado
   verNovedades(emp: Empleado) {
     this.empleadoSeleccionado = emp;
     this.cargarNovedades(emp.id!);
     this.mostrarModalNovedades = true;
   }
 
-  // Cargar novedades desde el backend
+  // ✅ CORREGIDO: También cambiamos el localhost que estaba aquí escondido
   cargarNovedades(idEmpleado: number) {
     const token = this.authService.getToken();
     console.log('Cargando novedades para empleado:', idEmpleado);
 
-    this.http.get<Novedad[]>(`http://'https://giving-joy-production.up.railway.app'/api/novedades/empleado/${idEmpleado}`, {
+    this.http.get<Novedad[]>(`${environment.apiUrl}/api/novedades/empleado/${idEmpleado}`, {
       headers: { 'Authorization': `Bearer ${token}` }
     }).subscribe({
       next: (data) => {

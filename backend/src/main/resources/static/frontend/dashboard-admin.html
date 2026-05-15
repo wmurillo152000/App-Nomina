@@ -103,20 +103,22 @@
 
   <script src="js/api.js"></script>
   <script>
-    async function cargarEmpleados() {
-      try {
-        const res = await fetch('https://giving-joy-production.up.railway.app');
-        if (!res.ok) {
-          const text = await res.text();
-          throw new Error(`HTTP ${res.status}: ${text}`);
-        }
-        return await res.json();
-      } catch (error) {
-        console.error('Error al cargar empleados:', error);
-        alert('Error del servidor: ' + error.message + '\n\n¿Spring Boot está corriendo?\n¿Hay datos en la BD?');
-        return [];
-      }
+   async function cargarEmpleados() {
+  try {
+    // ✅ Reemplazamos localhost por tu URL de Railway en plural
+    const res = await fetch('https://giving-joy-production.up.railway.app/api/empleados');
+    if (!res.ok) {
+      const text = await res.text();
+      throw new Error(`HTTP ${res.status}: ${text}`);
     }
+    return await res.json();
+  } catch (error) {
+    console.error('Error al cargar empleados:', error);
+    // ✅ Ajustamos el mensaje para reflejar que ahora conecta a Railway en la nube
+    alert('Error del servidor: ' + error.message + '\n\n¿El backend en Railway está activo?\n¿Hay datos en la BD?');
+    return [];
+  }
+}
 
     // === DASHBOARD ===
     async function cargarDashboard() {

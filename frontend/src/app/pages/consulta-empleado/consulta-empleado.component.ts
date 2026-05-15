@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { environment } from '../../../environments/environment';
 import { AuthService } from '../../services/auth.service';
 
 interface Empleado {
@@ -73,19 +74,19 @@ export class ConsultaEmpleadoComponent implements OnInit {
         console.log('Usuario EMPLEADO autenticado correctamente');
 
         // Cargar empleados (usa datos reales o de prueba)
-        const token = this.authService.getToken();
-        this.http.get<Empleado[]>('http://'https://giving-joy-production.up.railway.app'/api/empleados', {
-            headers: { 'Authorization': `Bearer ${token}` }
-        }).subscribe({
-            next: (data) => {
-                this.empleados = data.length > 0 ? data : this.datosPrueba;
-                console.log('Empleados cargados:', this.empleados.length);
-            },
-            error: (err) => {
-                console.log('Backend no responde, usando datos de prueba');
-                this.empleados = this.datosPrueba;
-            }
-        });
+       const token = this.authService.getToken();
+this.http.get<Empleado[]>(`${environment.apiUrl}/api/empleados`, {
+    headers: { 'Authorization': `Bearer ${token}` } // ✅ Corregido con comillas simples por fuera
+}).subscribe({
+    next: (data) => {
+        this.empleados = data.length > 0 ? data : this.datosPrueba;
+        console.log('Empleados cargados desde Railway:', this.empleados.length);
+    },
+    error: (err) => {
+        console.log('Backend en Railway no responde o dio error, usando datos de prueba', err);
+        this.empleados = this.datosPrueba;
+    }
+});
     }
 
     buscar(): void {

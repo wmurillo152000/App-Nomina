@@ -157,10 +157,11 @@
     let periodoActual = null;
 
     async function cargarPeriodo() {
-      try {
-        const res = await fetch('http://'https://giving-joy-production.up.railway.app'/api/periodo/actual');
-        if (!res.ok) throw new Error('Error al cargar período');
-        periodoActual = await res.json();
+  try {
+    // ✅ Reemplazamos localhost por tu URL de Railway en plural
+    const res = await fetch('https://giving-joy-production.up.railway.app/api/periodos/actual');
+    if (!res.ok) throw new Error('Error al cargar período');
+    periodoActual = await res.json();
 
         document.getElementById('tituloPeriodo').innerHTML = `
           <h2>Nómina - ${periodoActual.nombre}</h2>
@@ -177,11 +178,13 @@
 
     async function cargarNomina() {
       try {
-        const [empleadosRes, novedadesRes] = await Promise.all([
-          fetch('http://'https://giving-joy-production.up.railway.app'/api/empleado'),
-          fetch(`http://'https://giving-joy-production.up.railway.app'/api/novedad/periodo/${periodoActual.periodoKey}`)
-        ]);
-
+       const [empleadosRes, novedadesRes] = await Promise.all([
+    // 1. Con comillas simples, cambiamos localhost por Railway:
+    fetch('https://giving-joy-production.up.railway.app/api/empleados'),
+    
+    // 2. Con comillas invertidas (backticks), cambiamos localhost manteniendo la variable:
+    fetch(`https://giving-joy-production.up.railway.app/api/novedad/periodo/${periodoActual.id}`)
+]);
         if (!empleadosRes.ok || !novedadesRes.ok) throw new Error('Error al cargar datos');
 
         const empleados = await empleadosRes.json();
@@ -241,9 +244,9 @@
 
     function pagarNomina() {
       if (confirm(`¿Estás seguro de pagar la nómina de ${periodoActual.nombre}?\n\nEsta acción no se puede deshacer.`)) {
-        fetch(`http://'https://giving-joy-production.up.railway.app'/api/periodo/pagar/${periodoActual.id}`, {
-          method: 'POST'
-        })
+        fetch(`https://giving-joy-production.up.railway.app/api/periodo/pagar/${periodoActual.id}`, {
+    method: 'POST'
+})
           .then(res => {
             if (!res.ok) throw new Error('Error al pagar');
             mostrarMensaje('¡Nómina pagada con éxito! Pasando al siguiente período...', 'exito');

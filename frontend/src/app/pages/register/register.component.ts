@@ -63,7 +63,7 @@ export class RegisterComponent {
       rol: this.rol.toUpperCase()
     };
 
-    this.http.post('http://'https://giving-joy-production.up.railway.app'/api/auth/register', payload, { responseType: 'text' }).subscribe({
+    this.http.post('http://localhost:8080/api/auth/register', payload, { responseType: 'text' }).subscribe({
       next: (res: string) => {
         this.loading = false;
         this.success = res || 'Usuario registrado correctamente. Inicia sesión.';

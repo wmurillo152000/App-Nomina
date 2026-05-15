@@ -230,16 +230,17 @@
       DEDUCCIONES: ["Falta", "Llegada Tarde", "Salida Temprano", "Préstamo", "Multa", "Otros Descuentos"]
     };
 
-    async function cargarEmpleados() {
-      try {
-        const res = await fetch//'https://giving-joy-production.up.railway.app'/api/empleado');
-        if (!res.ok) throw new Error('Error al cargar empleados');
-        return await res.json();
-      } catch (e) {
-        mostrarMensaje('Error de conexión con empleados', 'error');
-        return [];
-      }
-    }
+   async function cargarEmpleados() {
+  try {
+    // ✅ Reemplazamos localhost por tu URL de Railway en plural
+    const res = await fetch('https://giving-joy-production.up.railway.app/api/empleados');
+    if (!res.ok) throw new Error('Error al cargar empleados');
+    return await res.json();
+  } catch (e) {
+    mostrarMensaje('Error de conexión con empleados', 'error');
+    return [];
+  }
+}
 
     function buscarEmpleado() {
       const term = document.getElementById('searchEmpleado').value.trim().toLowerCase();
@@ -295,11 +296,10 @@
 
     async function cargarNovedades() {
       try {
-        const res = await fetch(`http://'https://giving-joy-production.up.railway.app'/api/novedad/empleado/${empleadoActual.id}/${periodo}`);
-        const novedades = await res.json();
-        const tbody = document.getElementById('tbodyNovedades');
-        tbody.innerHTML = '';
-
+      const res = await fetch(`https://giving-joy-production.up.railway.app/api/novedades/empleado/${empleadoActual.id}/${periodo}`);
+const novedades = await res.json();
+const tbody = document.getElementById('tbodyNovedades');
+tbody.innerHTML = '';
         let totalDev = 0, totalDed = 0;
         novedades.forEach(n => {
           const tr = document.createElement('tr');
@@ -339,11 +339,11 @@
         periodo: periodo
       };
 
-      fetch('http://'https://giving-joy-production.up.railway.app'/api/novedad', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(novedad)
-      })
+     fetch('https://giving-joy-production.up.railway.app/api/novedades', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(novedad)
+})
         .then(() => {
           mostrarMensaje('Novedad agregada', 'exito');
           document.getElementById('valorNovedad').value = '';
@@ -352,15 +352,16 @@
         .catch(() => mostrarMensaje('Error al guardar', 'error'));
     }
 
-    function eliminarNovedad(id) {
-      if (confirm('¿Eliminar esta novedad?')) {
-        fetch(`http://'https://giving-joy-production.up.railway.app'/api/novedad/${id}`, { method: 'DELETE' })
-          .then(() => {
-            mostrarMensaje('Novedad eliminada', 'exito');
-            cargarNovedades();
-          });
-      }
-    }
+  function eliminarNovedad(id) {
+  if (confirm('¿Eliminar esta novedad?')) {
+    // ✅ Cambiamos a la URL de Railway en plural y manteniendo las comillas invertidas
+    fetch(`https://giving-joy-production.up.railway.app/api/novedades/${id}`, { method: 'DELETE' })
+      .then(() => {
+        mostrarMensaje('Novedad eliminada', 'exito');
+        cargarNovedades();
+      });
+  }
+}
 
     function mostrarMensaje(texto, tipo = 'exito') {
       const msg = document.getElementById('mensaje');

@@ -77,7 +77,7 @@
   <script>
     async function cargarEmpleados() {
       try {
-        const res = await fetch('http://'https://giving-joy-production.up.railway.app'/api/empleado');
+        const res = await fetch('https://giving-joy-production.up.railway.app/api/empleados');
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         return await res.json();
       } catch (error) {
@@ -124,16 +124,17 @@
       window.location.href = `editar-empleado.html?id=${id}`;
     }
 
-    function eliminar(id) {
-      if (confirm('¿Eliminar este empleado?')) {
-        fetch(`http://'https://giving-joy-production.up.railway.app'/api/empleado/${id}`, { method: 'DELETE' })
-          .then(() => {
-            mostrarMensaje('Empleado eliminado', 'exito');
-            cargarConsulta();
-          })
-          .catch(() => mostrarMensaje('Error al eliminar', 'error'));
-      }
-    }
+function eliminar(id) {
+  if (confirm('¿Eliminar este empleado?')) {
+    // ✅ Cambiamos a la URL de Railway en plural y manteniendo las comillas invertidas
+    fetch(`https://giving-joy-production.up.railway.app/api/empleados/${id}`, { method: 'DELETE' })
+      .then(() => {
+        mostrarMensaje('Empleado eliminado', 'exito');
+        cargarConsulta();
+      })
+      .catch(() => mostrarMensaje('Error al eliminar', 'error'));
+  }
+}
 
     function filtrarTablaConsulta() {
       const term = document.getElementById('searchBox').value.toLowerCase();

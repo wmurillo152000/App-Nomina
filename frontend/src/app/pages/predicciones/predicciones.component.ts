@@ -41,7 +41,7 @@ export class PrediccionesComponent implements OnInit {
     costoBaseQuincena: number = 12294.24; // millones COP
     ultimaQuincenaReal: string = '2da Quincena Abril 2026';
 
-    private apiUrl = 'http://'https://giving-joy-production.up.railway.app'/api';
+    private apiUrl = 'http://localhost:8080/api';
 
     constructor(
         private authService: AuthService,

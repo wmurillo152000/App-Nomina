@@ -121,10 +121,11 @@
         return;
       }
 
-      try {
-        const res = await fetch(`http://'https://giving-joy-production.up.railway.app'/api/empleado/${id}`);
-        if (!res.ok) throw new Error('Empleado no encontrado');
-        const emp = await res.json();
+     try {
+    // ✅ Reemplazamos localhost por tu URL de Railway en plural
+    const res = await fetch(`https://giving-joy-production.up.railway.app/api/empleados/${id}`);
+    if (!res.ok) throw new Error('Empleado no encontrado');
+    const emp = await res.json();
 
         document.getElementById('idEmpleado').value = emp.id;
         document.getElementById('tipoDoc').value = emp.tipoDocumento;
@@ -151,7 +152,7 @@
         idEmpresa: 1
       };
 
-      fetch(`http://'https://giving-joy-production.up.railway.app'/api/empleado/${id}`, {
+      fetch(`http://localhost:8080/api/empleado/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(empleado)

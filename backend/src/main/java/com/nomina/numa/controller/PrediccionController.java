@@ -9,7 +9,7 @@ import java.util.*;
 @RestController
 @RequestMapping("/api/prediccion")
 @CrossOrigin(origins = { "http://localhost:4200",
-        "http://'https://giving-joy-production.up.railway.app'" }, allowedHeaders = "*", allowCredentials = "true")
+        "http://localhost:8080" }, allowedHeaders = "*", allowCredentials = "true")
 @RequiredArgsConstructor
 public class PrediccionController {
 

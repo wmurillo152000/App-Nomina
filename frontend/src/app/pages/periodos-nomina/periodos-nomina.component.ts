@@ -47,23 +47,24 @@ export class PeriodosNominaComponent implements OnInit {
         this.cargarPeriodos();
     }
 
-    cargarPeriodos(): void {
-        this.cargando = true;
-        this.empleadosService.getPeriodos().subscribe({
-            next: (data: Periodo[]) => {
-                this.periodos = data.sort((a, b) =>
-                    new Date(b.fechaInicio).getTime() - new Date(a.fechaInicio).getTime()
-                );
-                this.cargando = false;
-            },
-            error: (err) => {
-                console.error('Error al cargar perÃ­odos:', err);
-                this.periodos = [];
-                this.cargando = false;
-                alert('No se pudieron cargar los perÃ­odos.\n\nVerifica que el backend estÃ© corriendo en http://'https://giving-joy-production.up.railway.app'');
-            }
-        });
-    }
+  cargarPeriodos(): void {
+    this.cargando = true;
+    this.empleadosService.getPeriodos().subscribe({
+        next: (data: Periodo[]) => {
+            this.periodos = data.sort((a, b) =>
+                new Date(b.fechaInicio).getTime() - new Date(a.fechaInicio).getTime()
+            );
+            this.cargando = false;
+        },
+        error: (err) => {
+            console.error('Error al cargar períodos:', err);
+            this.periodos = [];
+            this.cargando = false;
+            // ✅ Corregimos los caracteres raros y actualizamos el mensaje apuntando a Railway
+            alert('No se pudieron cargar los períodos.\n\nVerifica que el servicio en la nube (Railway) esté activo.');
+        }
+    });
+}
 
     verNominaPeriodo(periodo: Periodo): void {
         this.periodoSeleccionado = periodo;

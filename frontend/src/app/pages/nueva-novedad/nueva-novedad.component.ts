@@ -5,7 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { HttpClient } from '@angular/common/http';
 import { Router, RouterModule, ActivatedRoute } from '@angular/router';
 import { SidebarComponent } from '../../guards/components/sidebar/sidebar.component';
-
+import { environment } from '../../../environments/environment';
 @Component({
   selector: 'app-nueva-novedad',
   standalone: true,
@@ -763,15 +763,15 @@ export class NuevaNovedadComponent implements OnInit {
       datosEnviar.valor = this.novedad.valor;
     }
 
-    this.http.post('http://'https://giving-joy-production.up.railway.app'/api/novedades', datosEnviar)
-      .subscribe({
-        next: () => {
-          alert('âœ… Â¡Novedad guardada exitosamente!');
-          this.router.navigate(['/novedades']);
-        },
-        error: (err) => {
-          alert('âŒ Error al guardar: ' + err.message);
-        }
-      });
+    this.http.post(`${environment.apiUrl}/api/novedades`, datosEnviar)
+  .subscribe({
+    next: () => {
+      alert('¡Novedad guardada exitosamente!');
+      this.router.navigate(['/novedades']);
+    },
+    error: (err) => {
+      alert('Error al guardar: ' + err.message);
+    }
+  });
   }
 }

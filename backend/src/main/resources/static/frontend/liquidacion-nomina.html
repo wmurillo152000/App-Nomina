@@ -76,17 +76,18 @@
 
   <script src="js/api.js"></script>
   <script>
-    async function cargarEmpleados() {
-      try {
-        const res = await fetch('http://'https://giving-joy-production.up.railway.app'/api/empleado');
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        return await res.json();
-      } catch (error) {
-        console.error('Error:', error);
-        mostrarMensaje('Error de conexión con el servidor', 'error');
-        return [];
-      }
-    }
+  async function cargarEmpleados() {
+  try {
+    // ✅ Reemplazamos localhost por tu URL de Railway en plural
+    const res = await fetch('https://giving-joy-production.up.railway.app/api/empleados');
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    return await res.json();
+  } catch (error) {
+    console.error('Error:', error);
+    mostrarMensaje('Error de conexión con el servidor', 'error');
+    return [];
+  }
+}
 
     async function cargarLiquidacion() {
       const empleados = await cargarEmpleados();
@@ -117,20 +118,21 @@
       });
     }
 
-    function liquidarEmpleado(id) {
-      if (confirm('¿Liquidar este empleado?')) {
-        fetch(`http://'https://giving-joy-production.up.railway.app'/api/empleado/${id}`, {
-          method: 'PATCH',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ estado: 'Liquidado' })
-        })
-          .then(() => {
-            mostrarMensaje('Empleado liquidado con éxito', 'exito');
-            cargarLiquidacion();
-          })
-          .catch(() => mostrarMensaje('Error al liquidar', 'error'));
-      }
-    }
+   function liquidarEmpleado(id) {
+  if (confirm('¿Liquidar este empleado?')) {
+    // ✅ Cambiamos a la URL de Railway en plural y manteniendo las comillas invertidas
+    fetch(`https://giving-joy-production.up.railway.app/api/empleados/${id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ estado: 'Liquidado' })
+    })
+      .then(() => {
+        mostrarMensaje('Empleado liquidado con éxito', 'exito');
+        cargarLiquidacion();
+      })
+      .catch(() => mostrarMensaje('Error al liquidar', 'error'));
+  }
+}
 
     function mostrarMensaje(texto, tipo = 'exito') {
       const msg = document.getElementById('mensaje');
