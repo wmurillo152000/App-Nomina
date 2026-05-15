@@ -11,7 +11,7 @@ import { environment } from '../../environments/environment'; // 1. IMPORTAMOS E
 export class AuthService {
 
     // 2. USAMOS LA VARIABLE CON EL HTTPS QUE CONFIGURASTE ANTES
-    private apiUrl = environment.apiUrl;
+    private apiUrl = 'https://giving-joy-production.up.railway.app';
 
     constructor(private http: HttpClient, private router: Router) { }
 
