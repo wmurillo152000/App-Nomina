@@ -3,10 +3,14 @@ package com.nomina.numa.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -30,7 +34,7 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .authorizeHttpRequests(auth -> auth
-                // ✅ Aquí agregamos /login, /register y demás rutas públicas para que no las bloquee
+                // Rutas públicas
                 .requestMatchers("/login", "/register", "/test", "/ping", "/health").permitAll()
                 .requestMatchers("/api/auth/**", "/api/register/**").permitAll()
                 .requestMatchers("/api/periodo-nomina/**", "/api/prediccion/**").permitAll()
@@ -45,27 +49,31 @@ public class SecurityConfig {
         return http.build();
     }
 
-    // ✅ Esta es la configuración MAESTRA de CORS para que Angular no reciba el error 405
     @Bean
-public CorsConfigurationSource corsConfigurationSource() {
-    CorsConfiguration configuration = new CorsConfiguration();
-    // Agregamos las dos URLs (Local y Railway) explícitamente
-    configuration.setAllowedOrigins(Arrays.asList(
-        "https://giving-simplicity-production-62a6.up.railway.app", 
-        "http://localhost:4200"
-    )); 
-    configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
-    configuration.setAllowedHeaders(Arrays.asList("*"));
-    configuration.setAllowCredentials(true); // Muy importante para JWT
-    
-    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-    source.registerCorsConfiguration("/**", configuration);
-    return source;
-}
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList(
+            "https://giving-simplicity-production-62a6.up.railway.app", 
+            "http://localhost:4200"
+        )); 
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
+        configuration.setAllowedHeaders(Arrays.asList("*"));
+        configuration.setAllowCredentials(true);
+        
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
 
-    // ✅ EL NUEVO CÓDIGO: El "fabricante" que AuthController necesita para funcionar
+    // ✅ Bean 1: El gestor de autenticación
     @Bean
-    public org.springframework.security.authentication.AuthenticationManager authenticationManager(org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration config) throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
+    }
+
+    // ✅ Bean 2: El encriptador de contraseñas (Lo que pedía el último error)
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }
