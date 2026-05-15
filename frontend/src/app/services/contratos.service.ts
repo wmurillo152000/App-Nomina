@@ -17,7 +17,7 @@ export interface Contrato {
 })
 export class ContratosService {
     // CORREGIDO: Cambiar de /api/contratos a /api/contrataciones
-    private apiUrl = 'http://localhost:8080/api/contrataciones';
+    private apiUrl = 'https://giving-joy-production.up.railway.app
 
     constructor(private http: HttpClient) { }
 
