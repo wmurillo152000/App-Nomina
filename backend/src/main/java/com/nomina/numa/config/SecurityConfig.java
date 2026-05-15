@@ -58,4 +58,10 @@ public class SecurityConfig {
         source.registerCorsConfiguration("/**", configuration); // Aplica a todas las rutas de tu backend
         return source;
     }
+
+    // ✅ EL NUEVO CÓDIGO: El "fabricante" que AuthController necesita para funcionar
+    @Bean
+    public org.springframework.security.authentication.AuthenticationManager authenticationManager(org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration config) throws Exception {
+        return config.getAuthenticationManager();
+    }
 }
