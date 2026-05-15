@@ -47,17 +47,21 @@ public class SecurityConfig {
 
     // ✅ Esta es la configuración MAESTRA de CORS para que Angular no reciba el error 405
     @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("*")); // Permite peticiones de cualquier URL
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS")); // OPTIONS es clave para Angular
-        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "X-Requested-With", "Accept", "Origin"));
-        configuration.setExposedHeaders(Arrays.asList("Access-Control-Allow-Origin"));
-        
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration); // Aplica a todas las rutas de tu backend
-        return source;
-    }
+public CorsConfigurationSource corsConfigurationSource() {
+    CorsConfiguration configuration = new CorsConfiguration();
+    // Agregamos las dos URLs (Local y Railway) explícitamente
+    configuration.setAllowedOrigins(Arrays.asList(
+        "https://giving-simplicity-production-62a6.up.railway.app", 
+        "http://localhost:4200"
+    )); 
+    configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
+    configuration.setAllowedHeaders(Arrays.asList("*"));
+    configuration.setAllowCredentials(true); // Muy importante para JWT
+    
+    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    source.registerCorsConfiguration("/**", configuration);
+    return source;
+}
 
     // ✅ EL NUEVO CÓDIGO: El "fabricante" que AuthController necesita para funcionar
     @Bean
